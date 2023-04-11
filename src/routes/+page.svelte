@@ -11,6 +11,8 @@
         filesize: 0.00
     }
 
+    let jsonData: infoFile[] = new Array()
+
     let infoFilesData: infoFile[] = new Array()
 
     const resetInputValues = () => {
@@ -27,12 +29,46 @@
         resetInputValues()
     }
 
+    const handleSubmitFile = () => {
+        console.log(jsonData);
+        infoFilesData = [...infoFilesData, ...jsonData]
+        console.log(infoFilesData)
+        jsonData = []
+    }
+
+    function handleFileUpload(event: any) {
+        const reader = new FileReader()
+        const file = event.target.files?.[0] ?? null
+        if (file) {
+            reader.readAsText(file, "UTF-8")
+            reader.onload = handleFileRead
+        }
+    }
+
+    function handleFileRead(event: ProgressEvent<FileReader>) {
+        const content = event.target!.result as string
+        jsonData = JSON.parse(content)
+        console.log(jsonData)
+    }
+
     const handleDelete = (extension: string) => {
         const filteredData = infoFilesData.filter(infoFilesData => infoFilesData.extension !== extension)
         infoFilesData = [...filteredData]
         console.log(infoFilesData)
     }
 </script>
+
+<form on:submit|preventDefault={handleSubmitFile}>
+    <input
+        id="file"
+        name="file"
+        type="file"
+        accept=".json"
+        on:change={handleFileUpload}
+        required
+    />
+    <button type="submit">Import</button>
+</form>
 
 <form on:submit|preventDefault={handleSubmit}>
     <label for="extension">Extension</label>
