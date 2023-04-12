@@ -4,6 +4,7 @@
     import { StructureError } from "../ts/classes/StructureError";
     import type { IInfoFile } from "../ts/interfaces/IInfoFile";
     import { validateData, validateFileStructure } from "../utils/DataValidations";
+    import toast, { Toaster } from 'svelte-french-toast'
 
     let infoFilesData: IInfoFile[] = new Array()
     
@@ -56,10 +57,18 @@
             jsonData = JSON.parse(content)
             validateFileStructure(jsonData)
         } catch (error) {
+            const toastStyleConfig = 'font-family: Open Sans;font-style: normal; font-weight: 500; font-size: 16px; line-height: 160%; color: #2D2D2D; background-color: #FEE2E2'
+
             if (error instanceof StructureError) {
-                alert(error.message);
+                toast.error(error.message, {
+                    style: toastStyleConfig,
+                    position: 'top-right'
+                })
             } else {
-                alert("An error occurred reading your file. Make sure your file follows JSON syntax and try again")
+                toast.error("An error occurred reading your file. Make sure your file follows JSON syntax and try again", {
+                    style: toastStyleConfig,
+                    position: 'top-right'
+                })
             }      
             resetFileValues()
         }
@@ -70,6 +79,8 @@
         infoFilesData = [...filteredData]
     }
 </script>
+
+<Toaster />
 
 <form on:submit|preventDefault={handleSubmitFile}>
     <Box title="Add data by importing JSON file">
