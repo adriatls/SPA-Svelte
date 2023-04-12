@@ -1,9 +1,9 @@
 <script lang="ts">
     import Box from "$lib/BoxForm.svelte";
     import Button from "$lib/Button.svelte";
-  import { StructureError } from "../ts/classes/StructureError";
+    import { StructureError } from "../ts/classes/StructureError";
     import type { IInfoFile } from "../ts/interfaces/IInfoFile";
-  import { validateData, validateFileStructure } from "../utils/DataValidations";
+    import { validateData, validateFileStructure } from "../utils/DataValidations";
 
     let infoFilesData: IInfoFile[] = new Array()
     
@@ -145,20 +145,26 @@
         </tr>
     </thead>
     <tbody class="table-body">
-        {#each infoFilesData as infoFileData }
-        <tr>
-            <td>{infoFileData.extension}</td>
-            <td>{infoFileData.count}</td>
-            <td>{infoFileData.filesize}</td>
-            <td>
-                <button
-                    on:click={() => handleDelete(infoFileData.extension)}
-                >
-                    Delete
-                </button>
-            </td>
-        </tr>
-        {/each}
+        {#if !infoFilesData.length}
+            <tr>
+                <td colspan="4">Add new data by importing it from a file or filling in the fields above!</td>
+            </tr>
+        {:else}
+            {#each infoFilesData as infoFileData }
+            <tr>
+                <td>{infoFileData.extension}</td>
+                <td>{infoFileData.count}</td>
+                <td>{infoFileData.filesize}</td>
+                <td>
+                    <button
+                        on:click={() => handleDelete(infoFileData.extension)}
+                    >
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            {/each}
+        {/if}
     </tbody>
 </table>
 
