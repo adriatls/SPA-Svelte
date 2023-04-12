@@ -1,22 +1,20 @@
 <script lang="ts">
-    interface infoFile {
-        extension: string,
-        count: number,
-        filesize: number,
-    }
+    import Box from "$lib/BoxForm.svelte";
+    import Button from "$lib/Button.svelte";
+    import type { InfoFile } from "../interfaces/InfoFile";
 
-    let infoFile: infoFile = {
+    let infoFilesData: InfoFile[] = new Array()
+    
+    let fileInput: HTMLInputElement
+    let jsonData: InfoFile[] = new Array()
+
+    let infoFile: InfoFile = {
         extension: '',
         count: 0,
         filesize: 0.00
     }
 
-    let fileInput: HTMLInputElement
-    let jsonData: infoFile[] = new Array()
-
-    let infoFilesData: infoFile[] = new Array()
-
-    const resetInputValues = () => {
+    const resetFieldsValues = () => {
         infoFile = {
             extension: '',
             count: 0,
@@ -24,9 +22,14 @@
         }
     }
 
-    const handleSubmit = () => {
+    const handleSubmitFields = () => {
         infoFilesData = [...infoFilesData, infoFile]
-        resetInputValues()
+        resetFieldsValues()
+    }
+
+    const resetFileValues = () => {
+        jsonData = []
+        fileInput.value = ''
     }
 
     const handleSubmitFile = () => {
@@ -46,11 +49,10 @@
             }
         })
         infoFilesData = [...infoFilesData, ...validDataFromFile]
-        jsonData = []
-        fileInput.value = ''
+        resetFileValues()
     }
 
-    function handleFileUpload(event: any) {
+    const handleFileUpload = (event: any) => {
         const reader = new FileReader()
         const file = event.target.files?.[0] ?? null
         if (file) {
@@ -59,13 +61,13 @@
         }
     }
 
-    function handleFileRead(event: ProgressEvent<FileReader>) {
+    const handleFileRead = (event: ProgressEvent<FileReader>) => {
         const content = event.target!.result as string
         try {
             jsonData = JSON.parse(content)
         } catch (error) {
             alert("An error occurred reading your file. Make sure your file follows JSON syntax and try again")
-            fileInput.value = ''
+            resetFileValues()
         }
     }
 
@@ -76,58 +78,69 @@
 </script>
 
 <form on:submit|preventDefault={handleSubmitFile}>
-    <input
-        id="file"
-        name="file"
-        type="file"
-        accept=".json"
-        on:change={handleFileUpload}
-        bind:this={fileInput}
-        required
-    />
-    <button type="submit">Import</button>
+    <Box title="Add data by importing JSON file">
+        <div class="field">
+            <label for="file">Chose a file</label>
+            <input
+                id="file"
+                name="file"
+                type="file"
+                accept=".json"
+                on:change={handleFileUpload}
+                bind:this={fileInput}
+                required
+            />
+        </div>
+        <Button label="Import" type="submit"/>
+    </Box>
 </form>
 
-<form on:submit|preventDefault={handleSubmit}>
-    <label for="extension">Extension</label>
-    <input
-        id="extension"
-        name="extension"
-        type="text"
-        maxlength="20"
-        minlength="1"
-        placeholder="Ex: java, xml, ..."
-        bind:value={infoFile.extension}
-        required
-    />
-
-    <label for="count">Count</label>
-    <input
-        id="count"
-        name="count"
-        type="number"
-        min="0"
-        max="9999"
-        placeholder='0'
-        bind:value={infoFile.count}
-        required
-    />
-
-    <label for="filesize">Filesize</label>
-    <input
-        id="filesize"
-        name="filesize"
-        type="number"
-        min="0"
-        max="1000000"
-        step='0.01'
-        placeholder='0.00'
-        bind:value={infoFile.filesize}
-        required
-    />
-
-    <button type="submit">Add</button>
+<form on:submit|preventDefault={handleSubmitFields}>
+    <Box title="Add data by filling in the fields">
+        <div class="field">
+            <label for="extension">Extension</label>
+            <input
+                id="extension"
+                name="extension"
+                type="text"
+                maxlength="20"
+                minlength="1"
+                placeholder="Ex: java, xml, ..."
+                bind:value={infoFile.extension}
+                required
+            />
+        </div>
+        <div class="field">
+            <label for="count">Count</label>
+            <input
+                id="count"
+                name="count"
+                type="number"
+                min="0"
+                max="9999"
+                placeholder='0'
+                bind:value={infoFile.count}
+                required
+            />
+        </div>
+        <div class="field">
+            <label for="filesize">Filesize</label>
+            <input
+                id="filesize"
+                name="filesize"
+                type="number"
+                min="0"
+                max="1000000"
+                step='0.01'
+                placeholder='0.00'
+                bind:value={infoFile.filesize}
+                required
+            />
+        </div>
+        <Button label="Add" type="submit"/>
+    </Box>
 </form>
+
 <table>
     <thead>
         <tr>
@@ -154,3 +167,48 @@
         {/each}
     </tbody>
 </table>
+
+<style>
+.field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+}
+.field label {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 160%;
+    color: #2D2D2D;
+}
+.field input {
+    border: thin solid #2D2D2D;
+    padding: 0px 8px;
+    border-radius: 4px;
+    color: #0056A8;
+    background-color: #FFF;
+    font-family: 'Open Sans';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 160%;
+    height: 40px;
+    width: 300px;
+}
+#file::file-selector-button {
+    font-weight: bold;
+    color: #0056A8;
+    background-color: rgba(0, 0, 0, 0.16);
+    padding: 0.5em;
+    border: none;
+    border-radius: 4px 0px 0px 4px;
+    height: 40px;
+    cursor: pointer;
+}
+#file[type="file"] {
+    padding: 0px 8px 0px 0px;
+    width: 308px;
+}
+</style>
