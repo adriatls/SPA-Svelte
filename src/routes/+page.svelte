@@ -11,6 +11,7 @@
         filesize: 0.00
     }
 
+    let fileInput: HTMLInputElement
     let jsonData: infoFile[] = new Array()
 
     let infoFilesData: infoFile[] = new Array()
@@ -25,36 +26,52 @@
 
     const handleSubmit = () => {
         infoFilesData = [...infoFilesData, infoFile]
-        console.log(infoFilesData)
         resetInputValues()
     }
 
     const handleSubmitFile = () => {
-        console.log(jsonData);
-        infoFilesData = [...infoFilesData, ...jsonData]
-        console.log(infoFilesData)
+        const validDataFromFile = jsonData.filter(item => {
+            const hasInfos = item.extension && item.count && item.filesize
+            if (hasInfos) {
+                const hasValidExtension = item.extension.length >= 1 && item.extension.length <= 20
+                const hasValidCount = item.count >= 0 && item.extension.length <= 9999
+                const hasValidFilesize = item.count >= 0 && item.extension.length <= 1000000
+                if (hasValidExtension && hasValidCount && hasValidFilesize) {
+                    return {
+                        extension: item.extension,
+                        count: item.count,
+                        filesize: item.filesize
+                    }
+                }
+            }
+        })
+        infoFilesData = [...infoFilesData, ...validDataFromFile]
         jsonData = []
+        fileInput.value = ''
     }
 
     function handleFileUpload(event: any) {
         const reader = new FileReader()
         const file = event.target.files?.[0] ?? null
         if (file) {
-            reader.readAsText(file, "UTF-8")
             reader.onload = handleFileRead
+            reader.readAsText(file, "UTF-8")
         }
     }
 
     function handleFileRead(event: ProgressEvent<FileReader>) {
         const content = event.target!.result as string
-        jsonData = JSON.parse(content)
-        console.log(jsonData)
+        try {
+            jsonData = JSON.parse(content)
+        } catch (error) {
+            alert("An error occurred reading your file. Make sure your file follows JSON syntax and try again")
+            fileInput.value = ''
+        }
     }
 
     const handleDelete = (extension: string) => {
         const filteredData = infoFilesData.filter(infoFilesData => infoFilesData.extension !== extension)
         infoFilesData = [...filteredData]
-        console.log(infoFilesData)
     }
 </script>
 
@@ -65,6 +82,7 @@
         type="file"
         accept=".json"
         on:change={handleFileUpload}
+        bind:this={fileInput}
         required
     />
     <button type="submit">Import</button>
