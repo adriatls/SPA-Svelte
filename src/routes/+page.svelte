@@ -1,14 +1,16 @@
 <script lang="ts">
     import Box from "$lib/BoxForm.svelte";
     import Button from "$lib/Button.svelte";
-    import type { InfoFile } from "../interfaces/InfoFile";
+  import { StructureError } from "../ts/classes/StructureError";
+    import type { IInfoFile } from "../ts/interfaces/IInfoFile";
+  import { validateData, validateFileStructure } from "../utils/DataValidations";
 
-    let infoFilesData: InfoFile[] = new Array()
+    let infoFilesData: IInfoFile[] = new Array()
     
     let fileInput: HTMLInputElement
-    let jsonData: InfoFile[] = new Array()
+    let jsonData: IInfoFile[] = new Array()
 
-    let infoFile: InfoFile = {
+    let infoFile: IInfoFile = {
         extension: '',
         count: 0,
         filesize: 0.00
@@ -23,7 +25,8 @@
     }
 
     const handleSubmitFields = () => {
-        infoFilesData = [...infoFilesData, infoFile]
+        const validData = validateData([infoFile])
+        infoFilesData = [...infoFilesData, validData[0]]
         resetFieldsValues()
     }
 
@@ -33,21 +36,7 @@
     }
 
     const handleSubmitFile = () => {
-        const validDataFromFile = jsonData.filter(item => {
-            const hasInfos = item.extension && item.count && item.filesize
-            if (hasInfos) {
-                const hasValidExtension = item.extension.length >= 1 && item.extension.length <= 20
-                const hasValidCount = item.count >= 0 && item.extension.length <= 9999
-                const hasValidFilesize = item.count >= 0 && item.extension.length <= 1000000
-                if (hasValidExtension && hasValidCount && hasValidFilesize) {
-                    return {
-                        extension: item.extension,
-                        count: item.count,
-                        filesize: item.filesize
-                    }
-                }
-            }
-        })
+        const validDataFromFile = validateData(jsonData)
         infoFilesData = [...infoFilesData, ...validDataFromFile]
         resetFileValues()
     }
@@ -65,8 +54,13 @@
         const content = event.target!.result as string
         try {
             jsonData = JSON.parse(content)
+            validateFileStructure(jsonData)
         } catch (error) {
-            alert("An error occurred reading your file. Make sure your file follows JSON syntax and try again")
+            if (error instanceof StructureError) {
+                alert(error.message);
+            } else {
+                alert("An error occurred reading your file. Make sure your file follows JSON syntax and try again")
+            }      
             resetFileValues()
         }
     }
@@ -141,8 +135,8 @@
     </Box>
 </form>
 
-<table>
-    <thead>
+<table class="table">
+    <thead class="table-head">
         <tr>
             <th>Extension</th>
             <th>Count</th>
@@ -150,7 +144,7 @@
             <th>Action</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="table-body">
         {#each infoFilesData as infoFileData }
         <tr>
             <td>{infoFileData.extension}</td>
@@ -210,5 +204,42 @@
 #file[type="file"] {
     padding: 0px 8px 0px 0px;
     width: 308px;
+    cursor: pointer;
 }
+
+.table {
+    width: 81.55%;
+    margin: auto;
+    background: #F5F5F5;
+    border-radius: 4px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.16);
+    border-collapse: collapse;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-size: 14px;
+    line-height: 160%;
+    color: #2D2D2D;
+}
+.table-head {
+    width: 100%;
+    height: 48px;
+    border-radius: 4px;
+    border-bottom: 0.5px solid #DDDDDD;
+    font-weight: 600;
+}
+
+.table-head th {
+    width: 25%;
+}
+.table-body {
+    width: 100%;
+    background: #FFFFFF;
+    font-weight: 400;
+}
+.table-body tr {
+    height: 50px;
+    text-align: center;
+    border: 0.5px solid #DDDDDD;
+}
+
 </style>
