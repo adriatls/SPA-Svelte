@@ -1,19 +1,14 @@
 <script lang="ts">
-  import toast from "svelte-french-toast";
     import type { IInfoFile } from "../ts/interfaces/IInfoFile";
     import Button from "./Button.svelte";
 
     export let infoFilesData: IInfoFile[]
     export let onUpdateSingleData: Function
+    export let onDeleteData: Function
 
     const handleDelete = (extension: string) => {
-        const filteredData = infoFilesData.filter(infoFilesData => infoFilesData.extension !== extension)
-        infoFilesData = [...filteredData]
-        const toastSuccessStyleConfig = 'font-family: Open Sans;font-style: normal; font-weight: 500; font-size: 16px; line-height: 160%; color: #2D2D2D; background-color: #D6FDDF'
-        toast.success('Data were deleated', {
-            style: toastSuccessStyleConfig,
-            position: 'top-right'
-        })
+        const infoDelete = new CustomEvent('deleteData', { detail: extension })
+        onDeleteData(infoDelete)
     }
 
     const handleEdit = (extension: string) => {

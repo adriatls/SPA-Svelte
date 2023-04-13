@@ -13,10 +13,10 @@
         filesize: 0.00
     }
     let addOrSave: 'Add' | 'Save' = 'Add'
+    const toastSuccessStyleConfig = 'font-family: Open Sans;font-style: normal; font-weight: 500; font-size: 16px; line-height: 160%; color: #2D2D2D; background-color: #D6FDDF'
 
     const updateInfoFilesData = (event: CustomEvent) => {
         infoFilesData = [...event.detail]
-        const toastSuccessStyleConfig = 'font-family: Open Sans;font-style: normal; font-weight: 500; font-size: 16px; line-height: 160%; color: #2D2D2D; background-color: #D6FDDF'
         toast.success('Data were updated', {
             style: toastSuccessStyleConfig,
             position: 'top-right'
@@ -24,7 +24,6 @@
     }
 
     const updateSingleData = (event: CustomEvent) => {
-        console.log('evento disparado', event.detail)
         const dataToEdit = infoFilesData.filter(item => item.extension === event.detail)
         infoFile = dataToEdit[0]
         addOrSave = 'Save'
@@ -32,6 +31,15 @@
 
     const cancelEdit = (event: CustomEvent) => {
         addOrSave = event.detail
+    }
+
+    const deleteData = (event: CustomEvent) => {
+        const filteredData = infoFilesData.filter(item => item.extension !== event.detail)
+        infoFilesData = [...filteredData]
+        toast.success('Data were deleated', {
+            style: toastSuccessStyleConfig,
+            position: 'top-right'
+        })
     }
 </script>
 
@@ -53,7 +61,11 @@
     />
 </div>
 
-<Table infoFilesData={infoFilesData} onUpdateSingleData={updateSingleData}/>
+<Table
+    infoFilesData={infoFilesData}
+    onUpdateSingleData={updateSingleData}
+    onDeleteData={deleteData}
+/>
 
 <style>
 .form-section {
