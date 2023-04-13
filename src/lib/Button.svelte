@@ -1,9 +1,20 @@
 <script lang="ts">
     export let label: string
-    export let type: "button" | "submit" | "reset" | null
+    export let type: "button" | "submit" | "reset"
+    export let clickHandler: Function = () => {}
+
+    const handleClick = () => {
+        clickHandler()
+    }
 </script>
 
-<button class="button" type={type}>{label}</button>
+<button
+    class="button"
+    type={type}
+    on:click={handleClick}
+>
+    {label}
+</button>
 
 <style>
 .button {

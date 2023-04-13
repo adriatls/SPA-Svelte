@@ -3,7 +3,7 @@ import type { IInfoFile } from "../ts/interfaces/IInfoFile";
 
 export const validateData = (data: IInfoFile[]) => {
     const validData: IInfoFile[] = data.filter(item => {
-        const hasInfos = !!item.extension && !Number.isNaN(item.count) && !Number.isNaN(item.filesize)
+        const hasInfos = !!item.extension && Number.isInteger(item.count) && !Number.isNaN(item.filesize)
         if (hasInfos) {
             const hasValidExtension = item.extension.length >= 1 && item.extension.length <= 20
             const hasValidCount = item.count >= 0 && item.extension.length <= 9999

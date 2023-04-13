@@ -172,7 +172,7 @@
                 <td>{infoFileData.filesize}</td>
                 <td>
                     <Button
-                        on:click={() => handleDelete(infoFileData.extension)}
+                        clickHandler={() => handleDelete(infoFileData.extension)}
                         label="Delete"
                         type="button"
                     />
