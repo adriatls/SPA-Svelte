@@ -1,6 +1,7 @@
 <script lang="ts">
     import FormFields from "$lib/FormFields.svelte";
     import FormFile from "$lib/FormFile.svelte";
+    import Header from "$lib/Header.svelte";
     import Table from "$lib/Table.svelte";
     import type { IInfoFile } from "../ts/interfaces/IInfoFile";
     import { Toaster } from 'svelte-french-toast'
@@ -30,6 +31,8 @@
 </script>
 
 <Toaster />
+
+<Header />
 
 <div class="form-section">
     <FormFile
