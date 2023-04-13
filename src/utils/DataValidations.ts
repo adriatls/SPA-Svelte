@@ -26,11 +26,11 @@ export const filterUniqueExtensions = (newData: IInfoFile[]) => {
 
     const uniqueNewData: IInfoFile[] = new Array()
     for (let extension of uniqueExtensions) {
-        const lastElement = newData.reduce((uniqueItems, item) => {
+        const lastElement = newData.reduce((previousItem, item) => {
             if (item.extension === extension) {
                 return item
             }
-            return uniqueItems
+            return previousItem
         })
         uniqueNewData.push(lastElement)
     }
@@ -43,7 +43,7 @@ export const validateFileStructure = (content: any) => {
     }
 
     for (const item of content) {
-        if (typeof(item) !== 'object' || item === null) {
+        if (typeof item !== 'object' || item === null) {
             throw new StructureError('The JSON file elements that are not objects')
         }
         if (!item.hasOwnProperty('extension') || typeof item.extension !== 'string') {

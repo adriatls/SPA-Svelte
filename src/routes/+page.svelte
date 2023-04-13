@@ -1,17 +1,14 @@
 <script lang="ts">
     import Box from "$lib/BoxForm.svelte";
     import Button from "$lib/Button.svelte";
+    import FormFile from "$lib/FormFile.svelte";
     import Table from "$lib/Table.svelte";
-    import { StructureError } from "../ts/classes/StructureError";
     import type { IInfoFile } from "../ts/interfaces/IInfoFile";
     import { filterUniqueExtensions, validateData, validateFileStructure } from "../utils/DataValidations";
-    import toast, { Toaster } from 'svelte-french-toast'
+    import { Toaster } from 'svelte-french-toast'
 
     let infoFilesData: IInfoFile[] = new Array()
     
-    let fileInput: HTMLInputElement
-    let jsonData: IInfoFile[] = new Array()
-
     let infoFile: IInfoFile = {
         extension: '',
         count: 0,
@@ -33,71 +30,15 @@
         resetFieldsValues()
     }
 
-    const resetFileValues = () => {
-        jsonData = []
-        fileInput.value = ''
-    }
-
-    const handleSubmitFile = () => {
-        const validDataFromFile = validateData(jsonData)
-        const allData = [...infoFilesData, ...validDataFromFile]
-        infoFilesData = filterUniqueExtensions(allData)
-        resetFileValues()
-    }
-
-    const handleFileUpload = (event: any) => {
-        const reader = new FileReader()
-        const file = event.target.files?.[0] ?? null
-        if (file) {
-            reader.onload = handleFileRead
-            reader.readAsText(file, "UTF-8")
-        }
-    }
-
-    const handleFileRead = (event: ProgressEvent<FileReader>) => {
-        const content = event.target!.result as string
-        try {
-            jsonData = JSON.parse(content)
-            validateFileStructure(jsonData)
-        } catch (error) {
-            const toastStyleConfig = 'font-family: Open Sans;font-style: normal; font-weight: 500; font-size: 16px; line-height: 160%; color: #2D2D2D; background-color: #FEE2E2'
-
-            if (error instanceof StructureError) {
-                toast.error(error.message, {
-                    style: toastStyleConfig,
-                    position: 'top-right'
-                })
-            } else {
-                toast.error("An error occurred reading your file. Make sure your file follows JSON syntax and try again", {
-                    style: toastStyleConfig,
-                    position: 'top-right'
-                })
-            }      
-            resetFileValues()
-        }
+    const updateInfoFilesData = (event: CustomEvent) => {
+        infoFilesData = [...event.detail]
     }
 </script>
 
 <Toaster />
 
 <div class="form-section">
-    <form on:submit|preventDefault={handleSubmitFile} class="form">
-        <Box title="Add data by importing JSON file">
-            <div class="field">
-                <label for="file">Chose a file</label>
-                <input
-                    id="file"
-                    name="file"
-                    type="file"
-                    accept=".json"
-                    on:change={handleFileUpload}
-                    bind:this={fileInput}
-                    required
-                />
-            </div>
-            <Button label="Import" type="submit"/>
-        </Box>
-    </form>
+    <FormFile onUpdateInfoFilesData={updateInfoFilesData} infoFilesData={infoFilesData}/>
 
     <form on:submit|preventDefault={handleSubmitFields} class="form">
         <Box title="Add data by filling in the fields">
