@@ -4,14 +4,14 @@
     import BoxForm from "./BoxForm.svelte";
     import Button from "./Button.svelte";
 
-    let infoFile: IInfoFile = {
-        extension: '',
-        count: 0,
-        filesize: 0.00
-    }
     let newData: IInfoFile[] = new Array()
+    export let infoFile: IInfoFile
     export let infoFilesData: IInfoFile[]
     export let onUpdateInfoFilesData: Function
+    export let onCancelEdit: Function
+    export let addOrSave: 'Add' | 'Save'
+
+    console.log(addOrSave)
 
     const resetFieldsValues = () => {
         infoFile = {
@@ -28,11 +28,24 @@
         const submit = new CustomEvent('updateInfoFilesData', {detail: newData})
         onUpdateInfoFilesData(submit);
         resetFieldsValues()
+        cancelEdit()
+    }
+
+    const cancelEdit = () => {
+        resetFieldsValues()
+        const click = new CustomEvent('updateButtonLabel', {detail: 'Add'})
+        onCancelEdit(click)
     }
 
 </script>
 
-<BoxForm title="Add data by filling in the fields" handleSubmitData={handleSubmitFields}>
+<BoxForm 
+    title={addOrSave === 'Add'
+        ? "Add data by filling in the fields" 
+        : "Edit data by changing the fields values"
+    }
+    handleSubmitData={handleSubmitFields}
+>
     <div class="field">
         <label for="extension">Extension</label>
         <input
@@ -73,7 +86,12 @@
             required
         />
     </div>
-    <Button label="Add" type="submit"/>
+    <div class="buttons">
+        {#if addOrSave === 'Save'}
+            <Button label={'Cancel'} type="button" clickHandler={() => cancelEdit()}/>
+        {/if}
+        <Button label={addOrSave} type="submit"/>
+    </div>
 </BoxForm >
 
 <style>
@@ -104,5 +122,11 @@
     line-height: 160%;
     height: 40px;
     width: 80%;
+}
+.buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
 }
 </style>

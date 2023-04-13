@@ -3,10 +3,16 @@
     import Button from "./Button.svelte";
 
     export let infoFilesData: IInfoFile[]
+    export let onUpdateSingleData: Function
 
     const handleDelete = (extension: string) => {
         const filteredData = infoFilesData.filter(infoFilesData => infoFilesData.extension !== extension)
         infoFilesData = [...filteredData]
+    }
+
+    const handleEdit = (extension: string) => {
+        const infoEdit = new CustomEvent('handleEdit', { detail: extension })
+        onUpdateSingleData(infoEdit)
     }
 </script>
 
@@ -31,6 +37,11 @@
                 <td>{infoFileData.count}</td>
                 <td>{infoFileData.filesize}</td>
                 <td>
+                    <Button
+                        clickHandler={() => handleEdit(infoFileData.extension)}
+                        label="Edit"
+                        type="button"
+                    />
                     <Button
                         clickHandler={() => handleDelete(infoFileData.extension)}
                         label="Delete"

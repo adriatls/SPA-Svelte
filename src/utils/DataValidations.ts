@@ -6,8 +6,8 @@ export const validateData = (data: IInfoFile[]) => {
         const hasInfos = !!item.extension && Number.isInteger(item.count) && !Number.isNaN(item.filesize)
         if (hasInfos) {
             const hasValidExtension = item.extension.length >= 1 && item.extension.length <= 20
-            const hasValidCount = item.count >= 0 && item.extension.length <= 9999
-            const hasValidFilesize = item.count >= 0 && item.extension.length <= 1000000
+            const hasValidCount = item.count >= 0 && item.count <= 9999
+            const hasValidFilesize = item.filesize >= 0 && item.filesize <= 1000000
             if (hasValidExtension && hasValidCount && hasValidFilesize) {
                 return {
                     extension: item.extension,

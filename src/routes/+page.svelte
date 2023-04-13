@@ -6,20 +6,46 @@
     import { Toaster } from 'svelte-french-toast'
 
     let infoFilesData: IInfoFile[] = new Array()
+    let infoFile: IInfoFile = {
+        extension: '',
+        count: 0,
+        filesize: 0.00
+    }
+    let addOrSave: 'Add' | 'Save' = 'Add'
 
     const updateInfoFilesData = (event: CustomEvent) => {
         infoFilesData = [...event.detail]
+    }
+
+    const updateSingleData = (event: CustomEvent) => {
+        console.log('evento disparado', event.detail)
+        const dataToEdit = infoFilesData.filter(item => item.extension === event.detail)
+        infoFile = dataToEdit[0]
+        addOrSave = 'Save'
+    }
+
+    const cancelEdit = (event: CustomEvent) => {
+        addOrSave = event.detail
     }
 </script>
 
 <Toaster />
 
 <div class="form-section">
-    <FormFile onUpdateInfoFilesData={updateInfoFilesData} infoFilesData={infoFilesData}/>
-    <FormFields onUpdateInfoFilesData={updateInfoFilesData} infoFilesData={infoFilesData}/>
+    <FormFile
+        onUpdateInfoFilesData={updateInfoFilesData}
+        infoFilesData={infoFilesData}
+    />
+    <FormFields
+        onUpdateInfoFilesData={updateInfoFilesData}
+        onCancelEdit={cancelEdit}
+        infoFilesData={infoFilesData}
+        infoFile={infoFile}
+        addOrSave={addOrSave}
+    />
 </div>
 
-<Table infoFilesData={infoFilesData}/>
+<Table infoFilesData={infoFilesData} onUpdateSingleData={updateSingleData}/>
 
 <style>
 .form-section {
