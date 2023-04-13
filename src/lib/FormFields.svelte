@@ -88,7 +88,12 @@
     </div>
     <div class="buttons">
         {#if addOrSave === 'Save'}
-            <Button label={'Cancel'} type="button" clickHandler={() => cancelEdit()}/>
+            <Button
+                label={'Cancel'}
+                type="button"
+                clickHandler={() => cancelEdit()}
+                isCancel={true}
+            />
         {/if}
         <Button label={addOrSave} type="submit"/>
     </div>

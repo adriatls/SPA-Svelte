@@ -2,6 +2,7 @@
     export let label: string
     export let type: "button" | "submit" | "reset"
     export let clickHandler: Function = () => {}
+    export let isCancel = false
 
     const handleClick = () => {
         clickHandler()
@@ -9,7 +10,7 @@
 </script>
 
 <button
-    class="button"
+    class={isCancel ? "button cancel" : "button"}
     type={type}
     on:click={handleClick}
 >
@@ -28,5 +29,10 @@
     font-weight: 600;
     font-size: 14px;
     line-height: 160%;
+}
+.cancel {
+    background-color: #FFFFFF;
+    color: #0056A8;
+    border: 1px solid #0056A8;
 }
 </style>

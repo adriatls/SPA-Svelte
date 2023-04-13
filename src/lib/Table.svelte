@@ -36,7 +36,7 @@
                 <td>{infoFileData.extension}</td>
                 <td>{infoFileData.count}</td>
                 <td>{infoFileData.filesize}</td>
-                <td>
+                <td class="buttons">
                     <Button
                         clickHandler={() => handleEdit(infoFileData.extension)}
                         label="Edit"
@@ -93,6 +93,16 @@
 @media only screen and (max-width: 768px) {
     .table {
         margin: 20px auto 20px;
+    }
+    .table td{
+        padding: 10px;
+    }
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
     }
 }
 </style>
