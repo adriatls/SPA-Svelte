@@ -20,13 +20,13 @@
     background: #F6F8F9;
     border-radius: 4px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.16);
-    max-width: 80%;
     padding: 10px;
     margin: 20px auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     gap: 15px;
+    height: 100%;
 }
 </style>

@@ -20,6 +20,23 @@ export const validateData = (data: IInfoFile[]) => {
     return validData
 }
 
+export const filterUniqueExtensions = (newData: IInfoFile[]) => {
+    const allNewExtensions = newData.map(item => item.extension)
+    const uniqueExtensions = [...new Set(allNewExtensions)]
+
+    const uniqueNewData: IInfoFile[] = new Array()
+    for (let extension of uniqueExtensions) {
+        const lastElement = newData.reduce((uniqueItems, item) => {
+            if (item.extension === extension) {
+                return item
+            }
+            return uniqueItems
+        })
+        uniqueNewData.push(lastElement)
+    }
+    return uniqueNewData
+}
+
 export const validateFileStructure = (content: any) => {
     if (!Array.isArray(content)) {
         throw new StructureError('The JSON file does not have an array')
