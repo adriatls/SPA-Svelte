@@ -4,7 +4,7 @@
     import Header from "$lib/Header.svelte";
     import Table from "$lib/Table.svelte";
     import type { IInfoFile } from "../ts/interfaces/IInfoFile";
-    import { Toaster } from 'svelte-french-toast'
+    import toast, { Toaster } from 'svelte-french-toast'
 
     let infoFilesData: IInfoFile[] = new Array()
     let infoFile: IInfoFile = {
@@ -16,6 +16,11 @@
 
     const updateInfoFilesData = (event: CustomEvent) => {
         infoFilesData = [...event.detail]
+        const toastSuccessStyleConfig = 'font-family: Open Sans;font-style: normal; font-weight: 500; font-size: 16px; line-height: 160%; color: #2D2D2D; background-color: #D6FDDF'
+        toast.success('Data were updated', {
+            style: toastSuccessStyleConfig,
+            position: 'top-right'
+        })
     }
 
     const updateSingleData = (event: CustomEvent) => {
@@ -65,7 +70,7 @@
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
-        gap: 0;
+        gap: 20px;
     }
 }
 </style>

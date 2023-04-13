@@ -35,7 +35,6 @@
     border-radius: 4px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.16);
     padding: 10px;
-    margin: 20px auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

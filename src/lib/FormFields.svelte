@@ -1,4 +1,5 @@
 <script lang="ts">
+  import toast from "svelte-french-toast";
     import type { IInfoFile } from "../ts/interfaces/IInfoFile";
     import { filterUniqueExtensions, validateData } from "../utils/DataValidations";
     import BoxForm from "./BoxForm.svelte";
@@ -10,8 +11,6 @@
     export let onUpdateInfoFilesData: Function
     export let onCancelEdit: Function
     export let addOrSave: 'Add' | 'Save'
-
-    console.log(addOrSave)
 
     const resetFieldsValues = () => {
         infoFile = {

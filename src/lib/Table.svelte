@@ -1,4 +1,5 @@
 <script lang="ts">
+  import toast from "svelte-french-toast";
     import type { IInfoFile } from "../ts/interfaces/IInfoFile";
     import Button from "./Button.svelte";
 
@@ -8,6 +9,11 @@
     const handleDelete = (extension: string) => {
         const filteredData = infoFilesData.filter(infoFilesData => infoFilesData.extension !== extension)
         infoFilesData = [...filteredData]
+        const toastSuccessStyleConfig = 'font-family: Open Sans;font-style: normal; font-weight: 500; font-size: 16px; line-height: 160%; color: #2D2D2D; background-color: #D6FDDF'
+        toast.success('Data were deleated', {
+            style: toastSuccessStyleConfig,
+            position: 'top-right'
+        })
     }
 
     const handleEdit = (extension: string) => {
@@ -58,7 +64,7 @@
 .table {
     width: 80%;
     max-width: 1000px;
-    margin: 80px auto 20px;
+    margin: 80px auto 40px;
     background: #F5F5F5;
     border-radius: 4px;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.16);

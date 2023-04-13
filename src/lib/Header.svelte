@@ -27,6 +27,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 11px 24px;
+    margin-bottom: 40px;
 }
 .header h1 {
     color: #FFFFFF;
