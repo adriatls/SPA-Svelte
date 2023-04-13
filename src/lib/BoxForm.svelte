@@ -1,13 +1,27 @@
 <script lang="ts">
     export let title: string
+    export let handleSubmitData: Function
+
+    const handleSubmit = () => {
+        handleSubmitData()
+    }
 </script>
 
-<div class="box">
-    <h1 class="title-box">{title}</h1>
-    <slot />
-</div>
+<form
+    on:submit|preventDefault={handleSubmit}
+    class="form"
+>
+    <div class="box">
+        <h1 class="title-box">{title}</h1>
+        <slot />
+    </div>
+</form>
+
 
 <style>
+.form {
+    height: 100%;
+}
 .title-box {
     font-family: 'Open Sans';
     font-style: normal;
@@ -28,5 +42,10 @@
     align-items: flex-start;
     gap: 15px;
     height: 100%;
+}
+@media only screen and (max-width: 768px) {
+    .form {
+        width: 100%;
+    }
 }
 </style>

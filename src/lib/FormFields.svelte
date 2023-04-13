@@ -32,56 +32,51 @@
 
 </script>
 
-<form on:submit|preventDefault={handleSubmitFields} class="form">
-    <BoxForm title="Add data by filling in the fields">
-        <div class="field">
-            <label for="extension">Extension</label>
-            <input
-                id="extension"
-                name="extension"
-                type="text"
-                maxlength="20"
-                minlength="1"
-                placeholder="Ex: java, xml, ..."
-                bind:value={infoFile.extension}
-                required
-            />
-        </div>
-        <div class="field">
-            <label for="count">Count</label>
-            <input
-                id="count"
-                name="count"
-                type="number"
-                min="0"
-                max="9999"
-                placeholder='0'
-                bind:value={infoFile.count}
-                required
-            />
-        </div>
-        <div class="field">
-            <label for="filesize">Filesize</label>
-            <input
-                id="filesize"
-                name="filesize"
-                type="number"
-                min="0"
-                max="1000000"
-                step='0.01'
-                placeholder='0.00'
-                bind:value={infoFile.filesize}
-                required
-            />
-        </div>
-        <Button label="Add" type="submit"/>
-    </BoxForm >
-</form>
+<BoxForm title="Add data by filling in the fields" handleSubmitData={handleSubmitFields}>
+    <div class="field">
+        <label for="extension">Extension</label>
+        <input
+            id="extension"
+            name="extension"
+            type="text"
+            maxlength="20"
+            minlength="1"
+            placeholder="Ex: java, xml, ..."
+            bind:value={infoFile.extension}
+            required
+        />
+    </div>
+    <div class="field">
+        <label for="count">Count</label>
+        <input
+            id="count"
+            name="count"
+            type="number"
+            min="0"
+            max="9999"
+            placeholder='0'
+            bind:value={infoFile.count}
+            required
+        />
+    </div>
+    <div class="field">
+        <label for="filesize">Filesize</label>
+        <input
+            id="filesize"
+            name="filesize"
+            type="number"
+            min="0"
+            max="1000000"
+            step='0.01'
+            placeholder='0.00'
+            bind:value={infoFile.filesize}
+            required
+        />
+    </div>
+    <Button label="Add" type="submit"/>
+</BoxForm >
 
 <style>
-.form {
-    height: 100%;
-}
 .field {
     display: flex;
     flex-direction: column;
@@ -109,11 +104,5 @@
     line-height: 160%;
     height: 40px;
     width: 80%;
-}
-
-@media only screen and (max-width: 768px) {
-    .form {
-        width: 100%;
-    }
 }
 </style>

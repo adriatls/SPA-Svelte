@@ -60,28 +60,24 @@
 
 </script>
 
-<form on:submit|preventDefault={handleSubmitFile} class="form">
-    <BoxForm title="Add data by importing JSON file">
-        <div class="field">
-            <label for="file">Chose a file</label>
-            <input
-                id="file"
-                name="file"
-                type="file"
-                accept=".json"
-                on:change={handleFileUpload}
-                bind:this={fileInput}
-                required
-            />
-        </div>
-        <Button label="Import" type="submit"/>
-    </BoxForm>
-</form>
+
+<BoxForm title="Add data by importing JSON file" handleSubmitData={handleSubmitFile}>
+    <div class="field">
+        <label for="file">Chose a file</label>
+        <input
+            id="file"
+            name="file"
+            type="file"
+            accept=".json"
+            on:change={handleFileUpload}
+            bind:this={fileInput}
+            required
+        />
+    </div>
+    <Button label="Import" type="submit"/>
+</BoxForm>
 
 <style>
-.form {
-    height: 100%;
-}
 .field {
     display: flex;
     flex-direction: column;
@@ -124,10 +120,5 @@
     padding: 0px 8px 0px 0px;
     width: 80%;
     cursor: pointer;
-}
-@media only screen and (max-width: 768px) {
-    .form {
-        width: 100%;
-    }
 }
 </style>
