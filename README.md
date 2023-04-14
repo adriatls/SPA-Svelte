@@ -63,6 +63,7 @@ The SPA must have:
 - [x] Make usage of TypeScript on the implementation of the solution
 - [x] Publish a Docker image with your application (including its dependencies) in a registry like Docker Hub
 - [x] Create a README file or page on how to use your SPA
+- [x] Deploy your solution to a cloud provider like Amazon AWS or Heroku
 
 ## <h2 id="backlog">🚧 Backlog<h2>
 
@@ -71,7 +72,6 @@ Opcional tasks not done:
 - [ ] Add a pagination feature to table T1.
 - [ ] Make the buttons "Add" and "Import" send a Post request to a Rest API (URL provided by a given environment variable)
 - [ ] Create one ore more automated tests using a plugin of your choosing
-- [ ] Deploy your solution to a cloud provider like Amazon AWS or Heroku
 
 ## <h2 id="run">🏃‍♀️ Run application<h2>
 
