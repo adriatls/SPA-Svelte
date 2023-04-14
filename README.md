@@ -1,7 +1,7 @@
 <h1 align="center" id="top" border="none"> 👩‍💻 Single Page Aplication - Svelte</h1>
 
 <div align="center">
-<a href="#sobre">About</a> | <a href="#requisitos">Requirements</a> | <a href="#regras">Business rules</a> | <a href="#opcionais">Opcionals done</a> | <a href='#backlog'>Backlog</a> | <a href='#run'>Run application</a> | <a href='#docker'>Docker</a> 
+<a href="#sobre">About</a> | <a href="#requisitos">Requirements</a> | <a href="#regras">Business rules</a> | <a href="#opcionais">Opcionals done</a> | <a href='#backlog'>Backlog</a> | <a href='#run'>Run application</a> | <a href='#docker'>Docker</a> | <a href='#preview'>Preview</a> 
 </div>
 
 ## <h2 id="sobre">📓 About<h2>
@@ -79,7 +79,7 @@ git clone https://github.com/adriatls/SPA-Svelte.git
 ```
 2 - Install dependencies:
 ```
-np install
+npm install
 ```
 3 - Run the application:
 ```
