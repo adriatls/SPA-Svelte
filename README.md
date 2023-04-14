@@ -102,6 +102,7 @@ docker run -d -p 3000:3000 adria/adria-spa-web
 3 - In your browser: http://localhost:3000/
 
 If you do not want to pull, it is possible to build and run the container locally
+
 1 - Run the comand:
 ```
 docker compose up -d --build --force-recreate
