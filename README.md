@@ -97,7 +97,7 @@ docker pull adriatls/adria-spa-web:latest
 
 2 - Run the container:
 ```
-docker run -d -p 3000:3000 adria/adria-spa-web
+docker run -d -p 3000:3000 adriatls/adria-spa-web
 ```
 3 - In your browser: http://localhost:3000/
 
