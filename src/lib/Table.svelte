@@ -77,7 +77,6 @@
     border-bottom: 0.5px solid #DDDDDD;
     font-weight: 600;
 }
-
 .table-head th {
     width: 25%;
 }

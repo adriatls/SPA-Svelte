@@ -1,5 +1,4 @@
 <script lang="ts">
-  import toast from "svelte-french-toast";
     import type { IInfoFile } from "../ts/interfaces/IInfoFile";
     import { filterUniqueExtensions, validateData } from "../utils/DataValidations";
     import BoxForm from "./BoxForm.svelte";
@@ -35,7 +34,6 @@
         const click = new CustomEvent('updateButtonLabel', {detail: 'Add'})
         onCancelEdit(click)
     }
-
 </script>
 
 <BoxForm 

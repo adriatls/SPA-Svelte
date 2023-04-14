@@ -4,7 +4,7 @@
     import { filterUniqueExtensions, validateData, validateFileStructure } from "../utils/DataValidations"
     import BoxForm from "./BoxForm.svelte"
     import Button from "./Button.svelte"
-    import toast, { Toaster } from 'svelte-french-toast'
+    import toast from 'svelte-french-toast'
 
     let fileInput: HTMLInputElement
     let jsonData: IInfoFile[] = new Array()
@@ -57,13 +57,11 @@
         onUpdateInfoFilesData(submit);
         resetFileValues()
     }
-
 </script>
-
 
 <BoxForm title="Add data by importing JSON file" handleSubmitData={handleSubmitFile}>
     <div class="field">
-        <label for="file">Chose a file</label>
+        <label for="file">Choose a file</label>
         <input
             id="file"
             name="file"
