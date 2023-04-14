@@ -1,5 +1,7 @@
 <h1 align="center" id="top" border="none"> 👩‍💻 Single Page Aplication - Svelte</h1>
 
+### Netlify link: <a href="http://daffy-experience.surge.sh/" target="_blank" title="acess project">SPA</a>
+
 <div align="center">
 <a href="#sobre">About</a> | <a href="#requisitos">Requirements</a> | <a href="#regras">Business rules</a> | <a href="#opcionais">Opcionals done</a> | <a href='#backlog'>Backlog</a> | <a href='#run'>Run application</a> | <a href='#docker'>Docker</a> | <a href='#preview'>Preview</a> 
 </div>
