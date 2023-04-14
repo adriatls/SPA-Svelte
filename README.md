@@ -6,7 +6,7 @@
 
 ## <h2 id="sobre">📓 About<h2>
 
-<p align="center">🚀 This project is a single page application following the requirements and business rules proposed in technical challenge 🚀</p>
+<p align="center">🚀 This project is a single page application following the requirements and business rules proposed in technical challenge</p>
 
 ## <h2 id="requisitos">📋 Requirements<h2>
 
